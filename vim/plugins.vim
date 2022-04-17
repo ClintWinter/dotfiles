@@ -15,6 +15,8 @@ Plug 'tpope/vim-fugitive'
 " Better comments
 Plug 'tpope/vim-commentary'
 
+Plug 'tpope/vim-surround'
+
 " Telescope fuzzy finder
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -33,6 +35,9 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Test runner
 Plug 'vim-test/vim-test'
+
+" PHP
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 
 " Neovim LSP
 Plug 'neovim/nvim-lspconfig'
