@@ -35,8 +35,8 @@ let g:netrw_list_hide=netrw_gitignore#Hide()    " use .gitignore
 "
 " Plugins
 "
-call plug#begin('~/.config/nvim/plugged')
-    source ~/.dotfiles/vim/plugins.vim
+call plug#begin()
+    source ~/etc/vim/plugins.vim
 call plug#end()
 
 call sourcery#init()
