@@ -15,6 +15,11 @@ nnoremap Y y$
 nmap <silent> <leader>bdc :bd<cr>
 nmap <silent> <leader>bda :bufdo bd<cr>
 
+" Window navigation
+nmap <c-j> <c-w><c-j>
+nmap <c-k> <c-w><c-k>
+nmap <c-h> <c-w><c-h>
+nmap <c-l> <c-w><c-l>
 
 " Plugins
 nnoremap <buffer><nowait> <leader>pi <cmd>PlugInstall<cr>
