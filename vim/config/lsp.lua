@@ -10,6 +10,8 @@ lspconfig.html.setup({
     filetypes = { 'html', 'blade' }
 })
 
+lspconfig.tsserver.setup { }
+
 lspconfig.tailwindcss.setup { }
 
 -- Setup nvim-cmp.
