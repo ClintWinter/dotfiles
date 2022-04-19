@@ -1,14 +1,21 @@
 let mapleader = ' '
 
+" QOL Improvements
+"
+" Top mappings via https://www.youtube.com/watch?v=hSHATqh8svM
+" Make Y behave like C, and D (yank to end of line)
+nnoremap Y y$
+
+xnoremap < <gv
+xnoremap > >gv
+
+" ignore auto-completion on enter
+" inoremap <cr> <c-e><cr>
+
 
 " Write
 nmap <leader>w :w<cr>
 nmap <leader>q :q<cr>
-
-
-" Top mappings via https://www.youtube.com/watch?v=hSHATqh8svM
-" Make Y behave like C, and D (yank to end of line)
-nnoremap Y y$
 
 
 " Buffers
@@ -47,7 +54,10 @@ nmap <leader>fb <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 
 " Mappings: phpactor
-nnoremap <silent><leader>u :call phpactor#ImportClass()<cr>
+nnoremap <silent><leader>ac :call phpactor#ContextMenu()<cr>
+nnoremap <silent><leader>ai :call phpactor#ImportClass()<cr>
+xnoremap <silent> <leader>ee :<C-U>call phpactor#ExtractExpression(visualmode())<cr>
+xnoremap <silent> <leader>em :<C-U>call phpactor#ExtractMethod(visualmode())<cr>
 
 
 " Mappings: fugitive

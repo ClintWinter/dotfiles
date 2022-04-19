@@ -21,14 +21,12 @@ set nohlsearch              " remove the highlights on search matches after movi
 set hidden                  " don't close files when they are switched away from. Keep their state. 
 set noerrorbells            " Dont make ringy-dingy noises in my ears. 
 set si                      " should indent next line? 
-set tw=120                  " hard wrap at 120 characters 
 set scrolloff=8             " keep the cursor buffered off the edge
 set signcolumn=yes
-set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,noinsert,noselect
 set background=dark
-
+set cmdheight=2
 syntax on
-colorscheme carbon
 
 "
 " netrw settings
@@ -36,21 +34,3 @@ colorscheme carbon
 let g:netrw_banner=0                            " suppress banner
 let g:netrw_liststyle=3                         " tree style
 let g:netrw_list_hide=netrw_gitignore#Hide()    " use .gitignore
-
-" CMP settings
-" gray
-" highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
-" " blue
-" highlight! CmpItemAbbrMatch guibg=NONE guifg=#569CD6
-" highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#569CD6
-" " light blue
-" highlight! CmpItemKindVariable guibg=NONE guifg=#9CDCFE
-" highlight! CmpItemKindInterface guibg=NONE guifg=#9CDCFE
-" highlight! CmpItemKindText guibg=NONE guifg=#9CDCFE
-" " pink
-" highlight! CmpItemKindFunction guibg=NONE guifg=#C586C0
-" highlight! CmpItemKindMethod guibg=NONE guifg=#C586C0
-" " front
-" highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
-" highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
-" highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4

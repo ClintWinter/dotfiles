@@ -6,6 +6,9 @@ Plug 'christoomey/vim-tmux-navigator'
 " Treesitter - syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+" Syntax analysis and fixing
+Plug 'dense-analysis/ale'
+
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
 
