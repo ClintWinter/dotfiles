@@ -31,12 +31,16 @@ Plug 'michaeldyrynda/carbon'
 Plug 'NLKNguyen/papercolor-theme'
 
 " Status line
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 
 " Status line themes
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 
-" Test runner
+" Testing
+Plug 'voldikss/vim-floaterm'
+Plug 'preservim/vimux'
 Plug 'vim-test/vim-test'
 
 " PHP

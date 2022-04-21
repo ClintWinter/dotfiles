@@ -19,8 +19,8 @@ nmap <leader>q :q<cr>
 
 
 " Buffers
-nmap <silent> <leader>bdc :bd<cr>
-nmap <silent> <leader>bda :bufdo bd<cr>
+nmap <silent> <leader>bw :bd<cr>
+nmap <silent> <leader>bq :bufdo bd<cr>
 
 
 " Window navigation
