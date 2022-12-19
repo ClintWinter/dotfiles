@@ -1,0 +1,6 @@
+require 'user.pconfig.lualine'
+require 'user.pconfig.harpoon'
+require 'user.pconfig.telescope'
+require 'user.pconfig.treesitter'
+require 'user.pconfig.undotree'
+require 'user.pconfig.fugitive'
