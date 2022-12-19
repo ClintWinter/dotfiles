@@ -42,7 +42,7 @@ return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim"          -- Have packer manage itself
 
-  use 'folke/tokyonight.nvim'           -- theme
+  use 'Shatur/neovim-ayu'               -- theme
   use 'onsails/lspkind.nvim'            -- kind icons
 
   use "nvim-lua/popup.nvim"             -- An implementation of the Popup API from vim in Neovim
@@ -99,6 +99,13 @@ return packer.startup(function(use)
   use 'mbbill/undotree'
 
   use 'tpope/vim-fugitive'
+
+  use {
+      'vim-test/vim-test',
+      requires = {
+          {'tpope/vim-dispatch'},
+      }
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

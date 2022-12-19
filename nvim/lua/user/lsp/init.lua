@@ -46,10 +46,10 @@ lsp.configure('sumneko_lua', {
 
 require('luasnip/loaders/from_vscode').lazy_load()
 
--- local check_backspace = function()
---   local col = vim.fn.col "." - 1
---   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
--- end
+local check_backspace = function()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
 
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = cmp.mapping.preset.insert({
