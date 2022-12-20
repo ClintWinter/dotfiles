@@ -5,6 +5,7 @@ vim.opt.tabstop = 4                             -- insert 2 spaces for a tab
 vim.opt.softtabstop = 4                         -- insert 2 spaces for a tab
 
 vim.opt.smartindent = true                      -- make indenting smarter again
+-- vim.opt.autoindent = true
 
 vim.opt.wrap = false                            -- display lines as one long line
 
