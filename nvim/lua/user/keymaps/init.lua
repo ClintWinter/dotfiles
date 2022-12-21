@@ -44,8 +44,8 @@ k("v", "<", "<gv", opts)
 k("v", ">", ">gv", opts)
 
 -- Move text up and down
-k("v", "<A-j>", ":m .+1<CR>==", opts)
-k("v", "<A-k>", ":m .-2<CR>==", opts)
+k("v", "<C-j>", ":m '>+1<CR>gv=gv")
+k("v", "<C-k>", ":m '>-2<CR>gv=gv")
 -- dont replace clipboard when pasting over something
 k("v", "p", '"_dP', opts)
 
