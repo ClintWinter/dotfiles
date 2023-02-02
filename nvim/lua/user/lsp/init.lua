@@ -44,6 +44,10 @@ lsp.configure('sumneko_lua', {
     }
 })
 
+lsp.configure('tsserver', {
+    exclude = { 'node_modules' },
+})
+
 require('luasnip/loaders/from_vscode').lazy_load()
 
 local check_backspace = function()

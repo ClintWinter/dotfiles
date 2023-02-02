@@ -82,15 +82,36 @@ return packer.startup(function(use)
 
   use 'tpope/vim-commentary'
 
+  use 'tpope/vim-surround'
+
+  use 'tpope/vim-eunuch'
+
+  use 'tpope/vim-unimpaired'
+
+  use 'tpope/vim-sleuth'
+
+  use 'tpope/vim-repeat'
+
+  use 'sheerun/vim-polyglot'
+
+  use 'christoomey/vim-tmux-navigator'
+
+  use 'nelstrom/vim-visual-star-search'
+
+  -- use {
+  --   'windwp/nvim-autopairs',
+  --   config = function() require('nvim-autopairs').setup() end
+  -- }
+
   use {
     'nvim-lualine/lualine.nvim',
     requires = {
-      {'kyazdani42/nvim-web-devicons', opt = true},
+      {'nvim-tree/nvim-web-devicons', opt = true},
     }
   }
 
   use {
-      'nvim-treesitter/nvim-treesitter', 
+      'nvim-treesitter/nvim-treesitter',
       {run = ':TSUpdate'},
   }
   use 'nvim-treesitter/playground'
@@ -106,6 +127,17 @@ return packer.startup(function(use)
           {'tpope/vim-dispatch'},
       }
   }
+
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons'
+    },
+  }
+
+  use 'dense-analysis/ale'
+
+  use 'github/copilot.vim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

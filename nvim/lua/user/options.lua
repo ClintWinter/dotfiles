@@ -50,7 +50,7 @@ vim.opt.fileencoding = "utf-8"                  -- the encoding written to a fil
 vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
 vim.opt.pumheight = 10                          -- pop up menu height
 vim.opt.showmode = false                        -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 2                         -- always show tabs
+vim.opt.showtabline = 1                         -- always show tabs
 vim.opt.swapfile = false                        -- creates a swapfile
 vim.opt.timeoutlen = 1000                       -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
@@ -59,6 +59,9 @@ vim.opt.cursorline = true                       -- highlight the current line
 vim.opt.numberwidth = 3                         -- set number column width to 2 {default 4}
 vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
 vim.opt.shortmess:append "c"
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.cmd('set whichwrap+=<,>,[,],h,l')
 vim.cmd([[set iskeyword+=-]])

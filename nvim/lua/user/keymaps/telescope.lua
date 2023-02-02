@@ -17,20 +17,21 @@ table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!**/.git/*")
 
 telescope.setup({
-	defaults = {
-		-- `hidden = true` is not supported in text grep commands.
-		vimgrep_arguments = vimgrep_arguments,
-	},
-	pickers = {
-		find_files = {
-			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-		},
-	},
+  defaults = {
+    -- `hidden = true` is not supported in text grep commands.
+    vimgrep_arguments = vimgrep_arguments,
+  },
+  pickers = {
+    find_files = {
+      -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+      find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+    },
+  },
 })
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<leader>ff', telescopeBuiltin.find_files, opts)
+vim.keymap.set('n', '<leader>wf', function() telescopeBuiltin.find_files({ no_ignore = true, prompt_title = "All Files" }) end, opts)
 vim.keymap.set('n', '<leader>fg', telescopeBuiltin.live_grep, opts)
 vim.keymap.set('n', '<leader>fb', telescopeBuiltin.buffers, opts)
 vim.keymap.set('n', '<leader>fh', telescopeBuiltin.help_tags, opts)
