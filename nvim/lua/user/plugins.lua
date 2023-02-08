@@ -51,9 +51,9 @@ return packer.startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
-      {'nvim-lua/plenary.nvim'},
-      {'nvim-telescope/telescope-fzy-native.nvim'},
-      {'nvim-treesitter/nvim-treesitter'},
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-fzy-native.nvim',
+      'nvim-treesitter/nvim-treesitter',
     }
   }
 
@@ -61,22 +61,22 @@ return packer.startup(function(use)
     'VonHeikemen/lsp-zero.nvim',
     requires = {
       -- LSP
-      {'neovim/nvim-lspconfig'},           -- enable LSP
-      {'williamboman/mason.nvim'},         -- LSP package manager
-      {'williamboman/mason-lspconfig.nvim'},
+      'neovim/nvim-lspconfig',
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
 
       -- autocompletion
-      {'hrsh7th/nvim-cmp'},                -- The completion plugin
-      {'hrsh7th/cmp-buffer'},              -- buffer completions
-      {'hrsh7th/cmp-path'},                -- path completions
-      {'hrsh7th/cmp-cmdline'},             -- cmdline completions
-      {'saadparwaiz1/cmp_luasnip'},        -- snippet completions
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
+      'hrsh7th/nvim-cmp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
 
       -- snippets
-      {'L3MON4D3/LuaSnip'},                -- snippet engine
-      {'rafamadriz/friendly-snippets'},    -- a set of snippets
+      'L3MON4D3/LuaSnip',
+      'rafamadriz/friendly-snippets',
     }
   }
 
@@ -98,11 +98,6 @@ return packer.startup(function(use)
 
   use 'nelstrom/vim-visual-star-search'
 
-  -- use {
-  --   'windwp/nvim-autopairs',
-  --   config = function() require('nvim-autopairs').setup() end
-  -- }
-
   use {
     'nvim-lualine/lualine.nvim',
     requires = {
@@ -111,10 +106,20 @@ return packer.startup(function(use)
   }
 
   use {
-      'nvim-treesitter/nvim-treesitter',
-      {run = ':TSUpdate'},
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+    requires = {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-context',
+    },
   }
+
   use 'nvim-treesitter/playground'
+
   use 'theprimeagen/harpoon'
 
   use 'mbbill/undotree'
@@ -122,10 +127,10 @@ return packer.startup(function(use)
   use 'tpope/vim-fugitive'
 
   use {
-      'vim-test/vim-test',
-      requires = {
-          {'tpope/vim-dispatch'},
-      }
+    'vim-test/vim-test',
+    requires = {
+      'tpope/vim-dispatch',
+    }
   }
 
   use {

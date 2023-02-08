@@ -1,12 +1,3 @@
--- local status_ok, _ = pcall(require, "lspconfig")
--- if not status_ok then
---   return
--- end
-
--- require("user.lsp.mason")
--- require("user.lsp.handlers").setup()
--- require("user.lsp.null-ls")
-
 local status_ok, lsp = pcall(require, "lsp-zero")
 if not status_ok then
   print('unable to load lsp-zero')
@@ -28,8 +19,7 @@ lsp.preset('recommended')
 lsp.ensure_installed({
   'intelephense',
   'sumneko_lua',
-  'tsserver',
-  'eslint',
+  'volar',
 })
 
 lsp.nvim_workspace()
@@ -37,15 +27,15 @@ lsp.nvim_workspace()
 lsp.configure('sumneko_lua', {
     settings = {
         Lua = {
-            diagnosticts = {
+            diagnostics = {
                 globals = { 'vim' }
             }
         }
     }
 })
 
-lsp.configure('tsserver', {
-    exclude = { 'node_modules' },
+lsp.configure('volar', {
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 })
 
 require('luasnip/loaders/from_vscode').lazy_load()
@@ -80,60 +70,22 @@ local cmp_mappings = cmp.mapping.preset.insert({
     'i',
     's',
   }),
-  ['<S-Tab>'] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.confirm()
-    elseif luasnip.jumpable(-1) then
-      luasnip.jump(-1)
-    else
-      fallback()
-    end
-  end, {
-    'i',
-    's',
-  })
+  -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+  --   if cmp.visible() then
+  --     cmp.confirm()
+  --   elseif luasnip.jumpable(-1) then
+  --     luasnip.jump(-1)
+  --   else
+  --     fallback()
+  --   end
+  -- end, {
+  --   'i',
+  --   's',
+  -- })
 })
 
 lsp.setup_nvim_cmp({
-  -- snippet = {
-  --   expand = function(args)
-  --     luasnip.lsp_expand(args.body)
-  --   end,
-  -- },
-
-  -- window = {
-  --   completion = cmp.config.window.bordered(),
-  --   documentation = cmp.config.window.bordered(),
-  -- },
-
   mapping = cmp_mappings,
-
-  -- formatting = {
-  --   fields = { 'kind', 'abbr', 'menu' },
-  --   format = function(entry, vim_item)
-  --     vim_item.menu = ({
-  --       cmp = "[LSP]",
-  --       luasnip = "[Snippet]",
-  --       buffer = "[Buffer]",
-  --       path = "[Path]",
-  --     })[entry.source.name]
-
-  --     return vim_item
-  --   end,
-  -- },
-
-  -- sources = {
-  --   { name = 'nvim_lsp' },
-  --   { name = 'cmp' },
-  --   { name = 'luasnip' },
-  --   { name = 'path' },
-  --   { name = 'buffer' },
-  -- },
-
-  -- confirm_opts = {
-  --   behavior = cmp.ConfirmBehavior.Replace,
-  --   select = false,
-  -- },
 })
 
 lsp.set_preferences({
@@ -168,5 +120,13 @@ end)
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true,
+  virtual_text = false,
+  float = {
+    source = true,
+  }
 })
+
+vim.fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
+vim.fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
+vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'DiagnosticSignInfo' })
+vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })

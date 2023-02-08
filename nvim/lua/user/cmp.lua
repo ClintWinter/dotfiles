@@ -71,12 +71,13 @@ cmp.setup({
     -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<CR>'] = nil,
     ['<Tab>'] = cmp.mapping(function(fallback)
-      if luasnip.expandable() then
-        luasnip.expand()
+      local copilot_keys = vim.fn['copilot#Accept']()
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif check_backspace() then
-        fallback()
+      elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
+        vim.api.nvim_feedkeys(copilot_keys, 'i', true)
       else
         fallback()
       end
@@ -84,6 +85,20 @@ cmp.setup({
       'i',
       's',
     }),
+    -- ['<Tab>'] = cmp.mapping(function(fallback)
+    --   if luasnip.expandable() then
+    --     luasnip.expand()
+    --   elseif luasnip.expand_or_jumpable() then
+    --     luasnip.expand_or_jump()
+    --   elseif check_backspace() then
+    --     fallback()
+    --   else
+    --     fallback()
+    --   end
+    -- end, {
+    --   'i',
+    --   's',
+    -- }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm()
@@ -97,8 +112,6 @@ cmp.setup({
       's',
     })
   }),
-
-
 
   formatting = {
     fields = { 'kind', 'abbr', 'menu' },
