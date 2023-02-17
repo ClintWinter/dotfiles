@@ -29,3 +29,9 @@ configs.setup {
         },
     }
 }
+
+vim.filetype.add({
+    extension = {
+        astro = 'astro'
+    }
+})

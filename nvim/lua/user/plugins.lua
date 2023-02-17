@@ -42,7 +42,9 @@ return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim"          -- Have packer manage itself
 
-  use 'Shatur/neovim-ayu'               -- theme
+  use "EdenEast/nightfox.nvim"
+  -- use 'sainnhe/everforest'
+  -- use 'Shatur/neovim-ayu'               -- theme
   use 'onsails/lspkind.nvim'            -- kind icons
 
   use "nvim-lua/popup.nvim"             -- An implementation of the Popup API from vim in Neovim
