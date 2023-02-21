@@ -14,6 +14,13 @@ if not snip_status_ok then
   return
 end
 
+local nvim_lsp_status_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if not nvim_lsp_status_ok then
+  return
+end
+
+local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 lsp.preset('recommended')
 
 lsp.ensure_installed({
@@ -25,6 +32,7 @@ lsp.ensure_installed({
 lsp.nvim_workspace()
 
 lsp.configure('lua_ls', {
+  capabilities = capabilities,
     settings = {
         Lua = {
             diagnostics = {
@@ -35,6 +43,7 @@ lsp.configure('lua_ls', {
 })
 
 lsp.configure('volar', {
+  capabilities = capabilities,
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
 })
 

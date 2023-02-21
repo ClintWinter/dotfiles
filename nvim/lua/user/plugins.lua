@@ -69,6 +69,7 @@ return packer.startup(function(use)
 
       -- autocompletion
       'hrsh7th/nvim-cmp',
+      'hrsh7th/nvim-cmp-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
