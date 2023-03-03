@@ -42,7 +42,7 @@ return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim"          -- Have packer manage itself
 
-  use "EdenEast/nightfox.nvim"
+  use "EdenEast/nightfox.nvim"          -- https://github.com/EdenEast/nightfox.nvim
   -- use 'sainnhe/everforest'
   -- use 'Shatur/neovim-ayu'               -- theme
   use 'onsails/lspkind.nvim'            -- kind icons
