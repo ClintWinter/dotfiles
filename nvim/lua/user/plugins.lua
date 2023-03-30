@@ -39,16 +39,23 @@ packer.init {
 
 -- Install your plugins here
 return packer.startup(function(use)
-  -- My plugins here
   use "wbthomason/packer.nvim"          -- Have packer manage itself
 
-  use "EdenEast/nightfox.nvim"          -- https://github.com/EdenEast/nightfox.nvim
   -- use 'sainnhe/everforest'
-  -- use 'Shatur/neovim-ayu'               -- theme
-  use 'onsails/lspkind.nvim'            -- kind icons
+  -- use 'Shatur/neovim-ayu'
+  -- https://github.com/EdenEast/nightfox.nvim
+  use {
+    "EdenEast/nightfox.nvim",
+    config = function()
+      vim.cmd('colorscheme dawnfox')
+    end,
+  }
+  use 'onsails/lspkind.nvim'
 
   use "nvim-lua/popup.nvim"             -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim"           -- Useful lua functions used by lots of plugins
+
+  use 'nvim-tree/nvim-web-devicons'
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -76,6 +83,12 @@ return packer.startup(function(use)
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
+      {
+        'zbirenbaum/copilot-cmp',
+        config = function()
+          require('copilot_cmp').setup()
+        end,
+      },
 
       -- snippets
       'L3MON4D3/LuaSnip',
@@ -143,9 +156,44 @@ return packer.startup(function(use)
     },
   }
 
-  use 'dense-analysis/ale'
+  -- use 'dense-analysis/ale'
 
-  use 'github/copilot.vim'
+  -- use 'github/copilot.vim'
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = { "VimEnter", "InsertEnter" },
+    config = function()
+      require('copilot').setup({
+        cmp = {
+          enabled = true,
+          method = 'getCompletionsCycling',
+        },
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+        filetypes = {
+          xml = false,
+          md = false,
+        },
+        -- server_opts_overrides = {
+        --   settings = {
+        --     advanced = {
+        --       inlineSuggestCount = 3, -- #completions for getCompletions
+        --     },
+        --   },
+        -- },
+      })
+    end,
+    -- event = "InsertEnter",
+    -- config = function()
+    --   require("copilot").setup({
+    --     filetypes = {
+    --       md = false,
+    --       xml = false,
+    --     },
+    --   })
+    -- end,
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

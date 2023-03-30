@@ -20,6 +20,12 @@ local check_backspace = function()
   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
 end
 
+local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+end
+
 local kind_icons = {
   Text = "",
   Method = "m",
@@ -61,8 +67,20 @@ cmp.setup({
   },
 
   mapping = cmp.mapping.preset.insert({
-    ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<C-k>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+    ['<C-k>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     -- ['<C-Space>'] = cmp.mapping.complete(),
@@ -71,13 +89,10 @@ cmp.setup({
     -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<CR>'] = nil,
     ['<Tab>'] = cmp.mapping(function(fallback)
-      local copilot_keys = vim.fn['copilot#Accept']()
-      if cmp.visible() then
-        cmp.select_next_item()
+      if cmp.visible() and has_words_before() then
+        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif copilot_keys ~= '' and type(copilot_keys) == 'string' then
-        vim.api.nvim_feedkeys(copilot_keys, 'i', true)
       else
         fallback()
       end
@@ -119,6 +134,7 @@ cmp.setup({
       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 
       vim_item.menu = ({
+        copilot = "[🤖]",
         cmp = "[LSP]",
         luasnip = "[Snippet]",
         buffer = "[Buffer]",
@@ -130,8 +146,29 @@ cmp.setup({
   },
 
   sources = {
+    {
+      name = 'copilot',
+      max_item_count = 3,
+      trigger_characters = {
+        ' ',
+        '.',
+        ':',
+        '>',
+        '{',
+        '(',
+        '[',
+        '/',
+        "'",
+        '"',
+        '=',
+        '-',
+        '\\',
+        '\n',
+        '\t',
+      },
+    },
     { name = 'nvim_lsp' },
-    { name = 'nvim_lsp_signature_help' },
+    -- { name = 'nvim_lsp_signature_help' },
     { name = 'cmp' },
     { name = 'luasnip' },
     { name = 'path' },
@@ -141,5 +178,9 @@ cmp.setup({
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
+  },
+
+  experimental = {
+    ghost_text = true,
   },
 })

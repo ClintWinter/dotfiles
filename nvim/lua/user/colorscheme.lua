@@ -1,3 +1,4 @@
+-- nightfox, dawnfox, nordfox
 local colorscheme = 'dawnfox'
 
 local status_ok, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)

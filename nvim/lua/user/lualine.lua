@@ -11,8 +11,10 @@ lualine.setup({
     component_separators = '',
   },
   sections = {
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { 'encoding', 'fileformat', 'filetype' },
+    lualine_b = { 'branch' },
+    lualine_c = {},
+    lualine_x = { 'filename' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'filetype' },
   },
 })

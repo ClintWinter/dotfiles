@@ -25,7 +25,7 @@ vim.opt.ignorecase = true                       -- ignore case in search pattern
 vim.opt.smartcase = true                        -- smart case
 
 vim.opt.list = true
-vim.opt.listchars = { tab = ' ', trail = '' }
+vim.opt.listchars = { trail = '▪', tab = '⇥ ' } -- tab = '⇥ ', extends = '>', precedes = '<', nbsp = '␣' }
 vim.opt.fillchars:append({ eob = ' ' })         -- remove the ~ from the end of buffer
 
 vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
