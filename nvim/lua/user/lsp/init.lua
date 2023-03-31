@@ -21,15 +21,13 @@ end
 
 local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-lsp.preset('recommended')
+lsp.preset('lsp-only')
 
 lsp.ensure_installed({
   'intelephense',
   'lua_ls',
   'volar',
 })
-
-lsp.nvim_workspace()
 
 lsp.configure('lua_ls', {
   capabilities = capabilities,
@@ -45,56 +43,6 @@ lsp.configure('lua_ls', {
 lsp.configure('volar', {
   capabilities = capabilities,
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-})
-
-require('luasnip/loaders/from_vscode').lazy_load()
-
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = cmp.mapping.preset.insert({
-  ['<C-j>'] = cmp.mapping.select_next_item(),
-  ['<C-k>'] = cmp.mapping.select_prev_item(),
-  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-  ['<C-f>'] = cmp.mapping.scroll_docs(4),
-  ['<C-Space>'] = nil, -- don't want to collide with tmux
-  ['<C-e>'] = cmp.mapping.abort(),
-  ['<CR>'] = nil,
-  ['<Tab>'] = cmp.mapping(function(fallback)
-    if cmp.visible() then
-      cmp.confirm()
-    elseif luasnip.expandable() then
-      luasnip.expand()
-    elseif luasnip.expand_or_jumpable() then
-      luasnip.expand_or_jump()
-    elseif check_backspace() then
-      fallback()
-    else
-      fallback()
-    end
-  end, {
-    'i',
-    's',
-  }),
-  -- ['<S-Tab>'] = cmp.mapping(function(fallback)
-  --   if cmp.visible() then
-  --     cmp.confirm()
-  --   elseif luasnip.jumpable(-1) then
-  --     luasnip.jump(-1)
-  --   else
-  --     fallback()
-  --   end
-  -- end, {
-  --   'i',
-  --   's',
-  -- })
-})
-
-lsp.setup_nvim_cmp({
-  mapping = cmp_mappings,
 })
 
 lsp.set_preferences({

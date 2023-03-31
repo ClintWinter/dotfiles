@@ -8,17 +8,7 @@ if not snip_status_ok then
   return
 end
 
--- local kind_status_ok, kind = pcall(require, 'lspkind')
--- if not kind_status_ok then
---   return
--- end
-
 require('luasnip/loaders/from_vscode').lazy_load()
-
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
 
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
@@ -52,6 +42,7 @@ local kind_icons = {
   Event = "",
   Operator = "",
   TypeParameter = "",
+  Copilot = "⚡",
 }
 
 cmp.setup({
@@ -90,7 +81,7 @@ cmp.setup({
     ['<CR>'] = nil,
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() and has_words_before() then
-        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        cmp.confirm()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       else
@@ -100,20 +91,6 @@ cmp.setup({
       'i',
       's',
     }),
-    -- ['<Tab>'] = cmp.mapping(function(fallback)
-    --   if luasnip.expandable() then
-    --     luasnip.expand()
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   elseif check_backspace() then
-    --     fallback()
-    --   else
-    --     fallback()
-    --   end
-    -- end, {
-    --   'i',
-    --   's',
-    -- }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm()
@@ -133,8 +110,11 @@ cmp.setup({
     format = function(entry, vim_item)
       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 
+      print(entry.source.name)
+
       vim_item.menu = ({
         copilot = "[🤖]",
+        nvim_lsp = "[LSP]",
         cmp = "[LSP]",
         luasnip = "[Snippet]",
         buffer = "[Buffer]",
@@ -149,26 +129,25 @@ cmp.setup({
     {
       name = 'copilot',
       max_item_count = 3,
-      trigger_characters = {
-        ' ',
-        '.',
-        ':',
-        '>',
-        '{',
-        '(',
-        '[',
-        '/',
-        "'",
-        '"',
-        '=',
-        '-',
-        '\\',
-        '\n',
-        '\t',
-      },
+      -- trigger_characters = {
+      --   ' ',
+      --   '.',
+      --   ':',
+      --   '>',
+      --   '{',
+      --   '(',
+      --   '[',
+      --   '/',
+      --   "'",
+      --   '"',
+      --   '=',
+      --   '-',
+      --   '\\',
+      --   '\n',
+      --   '\t',
+      -- },
     },
     { name = 'nvim_lsp' },
-    -- { name = 'nvim_lsp_signature_help' },
     { name = 'cmp' },
     { name = 'luasnip' },
     { name = 'path' },
