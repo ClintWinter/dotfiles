@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Run this from the directory where 
+# you want the new fonts to end up!
+
+# $1 - source directory
+
+for file in "$1"/*; do
+    if [[ -f $file ]] && [[ $file == *.woff2 || $file == *.otf ]]; then
+        fontforge -script $HOME/Documents/Fonts/FontPatcher/font-patcher $file --complete
+    fi
+done
