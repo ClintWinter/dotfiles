@@ -47,7 +47,7 @@ return packer.startup(function(use)
   use {
     "EdenEast/nightfox.nvim",
     config = function()
-      vim.cmd('colorscheme dawnfox')
+      vim.cmd('colorscheme nightfox')
     end,
   }
   use 'onsails/lspkind.nvim'
@@ -76,7 +76,7 @@ return packer.startup(function(use)
 
       -- autocompletion
       'hrsh7th/nvim-cmp',
-      'hrsh7th/nvim-cmp-lsp-signature-help',
+      -- 'hrsh7th/nvim-cmp-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -184,15 +184,6 @@ return packer.startup(function(use)
         -- },
       })
     end,
-    -- event = "InsertEnter",
-    -- config = function()
-    --   require("copilot").setup({
-    --     filetypes = {
-    --       md = false,
-    --       xml = false,
-    --     },
-    --   })
-    -- end,
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

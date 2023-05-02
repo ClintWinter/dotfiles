@@ -42,7 +42,7 @@ local kind_icons = {
   Event = "",
   Operator = "",
   TypeParameter = "",
-  Copilot = "⚡",
+  Copilot = "🤖",
 }
 
 cmp.setup({
@@ -81,15 +81,29 @@ cmp.setup({
     ['<CR>'] = nil,
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() and has_words_before() then
-        cmp.confirm()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+        local entry = cmp.get_selected_entry()
+        if not entry then
+          cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+        else
+          cmp.confirm({
+            select = true,
+            behavior = cmp.ConfirmBehavior.Replace,
+          })
+        end
       else
         fallback()
       end
+      -- if cmp.visible() and has_words_before() then
+      --   cmp.confirm()
+      -- elseif luasnip.expand_or_jumpable() then
+      --   luasnip.expand_or_jump()
+      -- else
+      --   fallback()
+      -- end
     end, {
       'i',
       's',
+      'c',
     }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -110,10 +124,8 @@ cmp.setup({
     format = function(entry, vim_item)
       vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 
-      print(entry.source.name)
-
       vim_item.menu = ({
-        copilot = "[🤖]",
+        copilot = "[Copilot]",
         nvim_lsp = "[LSP]",
         cmp = "[LSP]",
         luasnip = "[Snippet]",
