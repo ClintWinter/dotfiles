@@ -45,6 +45,24 @@ local kind_icons = {
   Copilot = "🤖",
 }
 
+local formatting = {
+  fields = { 'kind', 'abbr', 'menu' },
+  format = function(entry, vim_item)
+    vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+
+    vim_item.menu = ({
+      copilot = "[Copilot]",
+      nvim_lsp = "[LSP]",
+      cmp = "[LSP]",
+      luasnip = "[Snippet]",
+      buffer = "[Buffer]",
+      path = "[Path]",
+    })[entry.source.name]
+
+    return vim_item
+  end,
+}
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -119,23 +137,7 @@ cmp.setup({
     })
   }),
 
-  formatting = {
-    fields = { 'kind', 'abbr', 'menu' },
-    format = function(entry, vim_item)
-      vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
-
-      vim_item.menu = ({
-        copilot = "[Copilot]",
-        nvim_lsp = "[LSP]",
-        cmp = "[LSP]",
-        luasnip = "[Snippet]",
-        buffer = "[Buffer]",
-        path = "[Path]",
-      })[entry.source.name]
-
-      return vim_item
-    end,
-  },
+  formatting = formatting,
 
   sources = {
     {
@@ -174,4 +176,42 @@ cmp.setup({
   experimental = {
     ghost_text = true,
   },
+})
+
+cmp.setup.filetype('markdown', {
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'cmp' },
+    { name = 'path' },
+  },
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline({
+    ['<C-j>'] = cmp.mapping(function(fallback)
+      -- if cmp.visible() then
+      --   cmp.select_next_item()
+      -- else
+      --   fallback()
+      -- end
+    end, {'i', 's'}),
+    ['<C-k>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, {'i', 's'}),
+  }),
+  sources = cmp.config.sources({
+    { name = 'path' },
+    { name = 'cmdline' }
+  })
+})
+
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
 })

@@ -46,9 +46,6 @@ return packer.startup(function(use)
   -- https://github.com/EdenEast/nightfox.nvim
   use {
     "EdenEast/nightfox.nvim",
-    config = function()
-      vim.cmd('colorscheme nightfox')
-    end,
   }
   use 'onsails/lspkind.nvim'
 
@@ -175,18 +172,11 @@ return packer.startup(function(use)
           xml = false,
           md = false,
         },
-        -- server_opts_overrides = {
-        --   settings = {
-        --     advanced = {
-        --       inlineSuggestCount = 3, -- #completions for getCompletions
-        --     },
-        --   },
-        -- },
       })
     end,
   }
 
-  use 'Olical/conjure'
+  -- use 'Olical/conjure'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
