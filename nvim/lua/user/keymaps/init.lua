@@ -48,6 +48,10 @@ k("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 k("n", "<S-l>", ":bnext<cr>", opts)
 k("n", "<S-h>", ":bprevious<cr>", opts)
 
+-- Control buffers
+k("n", "<leader>bde", ":%bd|e#|bd#<cr>", opts) -- delete all buffers except current (including the empty auto-created after deleting all)
+k("n", "<leader>bda", ":%bd<cr>", opts) -- delete all buffers
+
 -- Visual --
 -- Stay in indent mode
 k("v", "<", "<gv", opts)

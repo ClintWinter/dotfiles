@@ -6,6 +6,7 @@ end
 
 local telescopeConfig = require('telescope.config')
 local telescopeBuiltin = require('telescope.builtin')
+local previewers = require("telescope.previewers")
 
 -- Clone the default Telescope configuration
 local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
@@ -16,10 +17,17 @@ table.insert(vimgrep_arguments, "--hidden")
 table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!**/.git/*")
 
+telescope.load_extension('fzy_native')
+
 telescope.setup({
   defaults = {
     -- `hidden = true` is not supported in text grep commands.
     vimgrep_arguments = vimgrep_arguments,
+    buffer_previer_maker = function(filepath, bufnr, opts)
+      opts.use_ft_detect = false
+      previewers.buffer_previewer_maker(filepath, bufnr, opts)
+    end,
+    layout_strategy = "center",
   },
   pickers = {
     find_files = {
