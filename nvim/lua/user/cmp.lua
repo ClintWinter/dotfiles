@@ -172,10 +172,6 @@ cmp.setup({
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
-
-  experimental = {
-    ghost_text = true,
-  },
 })
 
 cmp.setup.filetype('markdown', {

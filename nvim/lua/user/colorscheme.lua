@@ -1,8 +1,9 @@
 -- options: nightfox, nordfox, duskfox, terafox, carbonfox, dawnfox, dayfox
 
-local appearance = vim.fn.system { 'swift', '/Users/clint/Code/clintwinter/dotfiles/scripts/appearance.swift' }
+local appearance = vim.fn.system { 'swift', '/Users/givebutter/Code/clintwinter/dotfiles/scripts/appearance.swift' }
 
-local colorscheme = appearance == "Light\n" and "dayfox" or "nightfox"
+local colorscheme = appearance == "Light\n" and "dawnfox" or "duskfox"
+
 local status_ok, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)
 
 if not status_ok then

@@ -32,18 +32,19 @@ lsp.ensure_installed({
 
 lsp.configure('lua_ls', {
   capabilities = capabilities,
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      }
     }
+  }
 })
 
 lsp.configure('tsserver', {
   capabilities = capabilities,
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  cmd = { "typescript-language-server", "--stdio" },
 })
 
 lsp.configure('eslint', {
@@ -52,32 +53,41 @@ lsp.configure('eslint', {
 })
 
 lsp.set_preferences({
-    sign_icons = {
-        error = 'E',
-        warn = 'W',
-        hint = 'H',
-        info = 'I',
-    }
+  sign_icons = {
+    error = 'E',
+    warn = 'W',
+    hint = 'H',
+    info = 'I',
+  }
 })
 
 lsp.on_attach(function(client, bufnr)
-    local opts = {buffer = bufnr, remap = false}
+  local opts = {buffer = bufnr, remap = false}
 
-    -- if client.name == 'eslint' then
-    --     vim.cmd.LspStop('eslint')
-    --     return
-    -- end
+  -- if client.name == 'eslint' then
+  --     vim.cmd.LspStop('eslint')
+  --     return
+  -- end
 
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>vws', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>vd', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', '<leader>vca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>vrn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('i', '<c-h>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<leader>vws', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<leader>vd', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_next, opts)
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, opts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<leader>vrn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('i', '<c-h>', vim.lsp.buf.signature_help, opts)
+
+  -- format on save
+  -- if client.server_capabilities.documentFormattingProvider then
+  --   vim.api.nvim_create_autocmd("BufWritePre", {
+  --     group = vim.api.nvim_create_augroup("Format", { clear = true }),
+  --     buffer = bufnr,
+  --     callback = function() vim.lsp.buf.formatting_seq_sync() end
+  --   })
+  -- end
 end)
 
 lsp.setup()

@@ -76,3 +76,4 @@ k("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- })
 
 require('user.keymaps.telescope')
+require('user.keymaps.user-commands')
