@@ -176,6 +176,11 @@ return packer.startup(function(use)
     end,
   }
 
+  use {
+    'fatih/vim-go',
+    run = ':GoUpdateBinaries',
+  }
+
   -- use 'Olical/conjure'
 
   -- Automatically set up your configuration after cloning packer.nvim
