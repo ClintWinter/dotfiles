@@ -61,6 +61,45 @@ lsp.set_preferences({
   }
 })
 
+local filter_out_useless_items = function (items)
+  local newItems = {}
+
+  for _, item in ipairs(items) do
+    if string.find(item.filename, 'ide_helper') == nil
+      and string.find(item.text, '__construct') == nil
+    then
+      table.insert(newItems, item)
+    end
+  end
+
+  return newItems
+
+  -- return vim.iter(items):filter(function (item)
+  --   return string.find(item.filename, 'laravel_ide') > 0
+  --     or string.find(item.text, '__construct') > 0
+  -- end):totable()
+end
+
+local on_list = function (args)
+  -- print('on list')
+  -- args.items = filter_out_useless_items(args.items)
+  local items = args.items
+
+  if #items > 1 then
+    items = filter(items, filter_out_useless_items)
+  end
+
+  vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
+  vim.api.nvim_command('cfirst')
+
+  return
+
+  -- print(vim.inspect(args.items));
+
+  -- vim.fn.setqflist({}, ' ', args)
+  -- vim.api.nvim_command('cfirst')
+end
+
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
@@ -69,7 +108,11 @@ lsp.on_attach(function(client, bufnr)
   --     return
   -- end
 
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  -- vim.keymap.set('n', 'gD', vim.lsp.buf.definition, opts);
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition({
+    reuse_win = true,
+    on_list = on_list,
+  }), opts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<leader>vws', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<leader>vd', vim.lsp.buf.hover, opts)

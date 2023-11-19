@@ -1,3 +1,4 @@
+-- https://github.com/nvim-telescope/telescope.nvim/issues/2014
 -- Declare the module
 local telescopePickers = {}
 
@@ -384,6 +385,49 @@ function telescopePickers.prettyWorkspaceSymbols(localOptions)
     end
 
     require('telescope.builtin').lsp_dynamic_workspace_symbols(options)
+end
+
+function telescopePickers.prettyBuffersPicker(localOptions)
+    if localOptions ~= nil and type(localOptions) ~= 'table' then
+        print("Options must be a table.")
+        return
+    end
+
+    options = localOptions or {}
+
+    local originalEntryMaker = telescopeMakeEntryModule.gen_from_buffer(options)
+
+    options.entry_maker = function(line)
+        local originalEntryTable = originalEntryMaker(line)
+
+        local displayer = telescopeEntryDisplayModule.create {
+            separator = " ",
+            items = {
+              { width = fileTypeIconWidth },
+              { width = nil },
+              { width = nil },
+              { remaining = true },
+            },
+          }
+
+        originalEntryTable.display = function(entry)
+            -- options.__prefix = options.bufnr_width + 4 + icon_width + 3 + 1 + #tostring(entry.lnum)
+            local tail, path = telescopePickers.getPathAndTail(entry.filename)
+            local tailForDisplay = tail .. ' '
+            local icon, iconHighlight = telescopeUtilities.get_devicons(tail)
+
+            return displayer {
+              { icon, iconHighlight },
+              tailForDisplay,
+              { '(' .. entry.bufnr .. ')', "TelescopeResultsNumber" },
+              { path, "TelescopeResultsComment" },
+            }
+        end
+
+        return originalEntryTable
+    end
+
+    require('telescope.builtin').buffers(options)
 end
 
 -- Return the module for use
