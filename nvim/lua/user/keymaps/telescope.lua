@@ -11,7 +11,7 @@ local previewers = require("telescope.previewers")
 local pickers = require('telescopePickers')
 
 -- Clone the default Telescope configuration
-local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+local vimgrep_arguments = telescopeConfig.values.vimgrep_arguments
 
 -- I want to search in hidden/dot files.
 table.insert(vimgrep_arguments, "--hidden")
@@ -43,14 +43,13 @@ telescope.setup({
   },
   pickers = {
     find_files = {
-      -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
       find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
     },
   },
 })
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<leader>ff', function() pickers.prettyFilesPicker({ picker = 'find_files', options = {find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }} }) end, opts)
+vim.keymap.set('n', '<leader>ff', function() pickers.prettyFilesPicker({ picker = 'git_files' }) end, opts)
 vim.keymap.set('n', '<leader>wf', function() pickers.prettyFilesPicker({ picker = 'find_files', options = { no_ignore = true, prompt_title = 'All Files' } }) end, opts)
 vim.keymap.set('n', '<leader>fg', function() pickers.prettyGrepPicker({ picker = 'live_grep' }) end, opts)
 vim.keymap.set('n', '<leader>fb', function() pickers.prettyBuffersPicker() end, opts)

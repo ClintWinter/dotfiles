@@ -43,7 +43,7 @@ lsp.configure('lua_ls', {
 
 lsp.configure('tsserver', {
   capabilities = capabilities,
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact' },
   cmd = { "typescript-language-server", "--stdio" },
 })
 
