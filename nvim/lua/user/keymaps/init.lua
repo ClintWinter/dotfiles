@@ -64,6 +64,11 @@ k("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 k("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 k("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
+-- text-case --
+k("n", "gat", function() require('textcase').current_word('to_title_case') end, opts)
+k("n", "gaT", function() require('textcase').lsp_rename('to_title_case') end, opts)
+k("n", "gaot", function() require('textcase').operator('to_title_case') end, opts)
+
 -- vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
 --   callback = function(args)
 --     local buffers = vim.api.nvim_list_bufs()

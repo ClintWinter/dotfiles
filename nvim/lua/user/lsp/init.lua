@@ -4,6 +4,11 @@ if not status_ok then
   return
 end
 
+local config_status_ok, lspconfig = pcall(require, "lspconfig")
+if not config_status_ok then
+  return
+end
+
 local cmp_status_ok, cmp = pcall(require, 'cmp')
 if not cmp_status_ok then
   return
@@ -23,23 +28,46 @@ local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_cli
 
 lsp.preset('lsp-only')
 
-lsp.ensure_installed({
-  'intelephense',
-  'lua_ls',
-  'tsserver',
-  'eslint',
-})
+lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+-- lsp.configure('lua_ls', {
+--   capabilities = capabilities,
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         globals = { 'vim' }
+--       }
+--     }
+--   }
+-- })
 
-lsp.configure('lua_ls', {
-  capabilities = capabilities,
+-- lsp.configure('phpactor', {
+--   capabilities = capabilities,
+--   cmd = { "phpactor", "language-server" },
+-- })
+
+-- lspconfig.phpactor.setup({
+--   init_options = {
+--     language_server_phpstan = {
+--       enabled = true,
+--     },
+--     language_server_php_cs_fixer = {
+--       enabled = true,
+--     }
+--   }
+-- })
+
+lspconfig.intelephense.setup({
   settings = {
-    Lua = {
-      diagnostics = {
-        globals = { 'vim' }
-      }
-    }
+    intelephense = {
+      licenceKey = os.getenv('HOME') .. '/intelephense/licence.txt',
+    },
   }
 })
+
+-- lsp.configure('intelephense', {
+--   capabilities = capabilities,
+--   cmd = { "intelephense", "--stdio" },
+-- })
 
 lsp.configure('tsserver', {
   capabilities = capabilities,
@@ -73,16 +101,9 @@ local filter_out_useless_items = function (items)
   end
 
   return newItems
-
-  -- return vim.iter(items):filter(function (item)
-  --   return string.find(item.filename, 'laravel_ide') > 0
-  --     or string.find(item.text, '__construct') > 0
-  -- end):totable()
 end
 
 local on_list = function (args)
-  -- print('on list')
-  -- args.items = filter_out_useless_items(args.items)
   local items = args.items
 
   if #items > 1 then
@@ -91,47 +112,55 @@ local on_list = function (args)
 
   vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
   vim.api.nvim_command('cfirst')
-
-  return
-
-  -- print(vim.inspect(args.items));
-
-  -- vim.fn.setqflist({}, ' ', args)
-  -- vim.api.nvim_command('cfirst')
 end
 
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_next)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_prev)
+
 lsp.on_attach(function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false}
+  -- These will be buffer-local keybindings because
+  -- they only work if you have an active LSP.
 
-  -- if client.name == 'eslint' then
-  --     vim.cmd.LspStop('eslint')
-  --     return
-  -- end
+  lsp.default_keymaps({
+    buffer = bufnr,
+    remap = false,
+    exclude = {'<F3>'},
+  })
 
-  -- vim.keymap.set('n', 'gD', vim.lsp.buf.definition, opts);
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition({
-    reuse_win = true,
-    on_list = on_list,
-  }), opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>vws', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>vd', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_next, opts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', '<leader>vrn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('i', '<c-h>', vim.lsp.buf.signature_help, opts)
-
-  -- format on save
-  -- if client.server_capabilities.documentFormattingProvider then
-  --   vim.api.nvim_create_autocmd("BufWritePre", {
-  --     group = vim.api.nvim_create_augroup("Format", { clear = true }),
-  --     buffer = bufnr,
-  --     callback = function() vim.lsp.buf.formatting_seq_sync() end
-  --   })
-  -- end
+--   vim.keymap.set('n', 'gD', vim.lsp.buf.definition, opts);
+--   vim.keymap.set('n', 'gd', vim.lsp.buf.definition({
+--     reuse_win = true,
+--     on_list = on_list,
+--   }), opts)
+--   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+--   vim.keymap.set('n', '<leader>vws', vim.lsp.buf.hover, opts)
+--   vim.keymap.set('n', '<leader>vd', vim.lsp.buf.hover, opts)
+--   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+--   vim.keymap.set('n', '<leader>vrr', vim.lsp.buf.references, opts)
+--   vim.keymap.set('n', '<leader>vrn', vim.lsp.buf.rename, opts)
+--   vim.keymap.set('i', '<c-h>', vim.lsp.buf.signature_help, opts)
 end)
+
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  ensure_installed ={
+    -- 'phpactor',
+    'intelephense',
+    'lua_ls',
+    'tsserver',
+    'eslint',
+  },
+  handlers = {
+    function(server_name)
+      require('lspconfig')[server_name].setup({})
+    end,
+
+    lua_ls = function()
+      lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+    end,
+  },
+})
 
 lsp.setup()
 

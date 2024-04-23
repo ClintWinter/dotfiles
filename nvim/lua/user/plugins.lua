@@ -47,6 +47,7 @@ return packer.startup(function(use)
   use {
     "EdenEast/nightfox.nvim",
   }
+  use { "rose-pine/neovim" }
   use 'onsails/lspkind.nvim'
 
   use "nvim-lua/popup.nvim"             -- An implementation of the Popup API from vim in Neovim
@@ -65,6 +66,7 @@ return packer.startup(function(use)
 
   use {
     'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
     requires = {
       -- LSP
       'neovim/nvim-lspconfig',
@@ -151,6 +153,39 @@ return packer.startup(function(use)
     requires = {
       'nvim-tree/nvim-web-devicons'
     },
+  }
+
+  use { "johmsalas/text-case.nvim",
+    config = function()
+      require('textcase').setup {}
+    end
+  }
+
+  use { 'phpactor/phpactor',
+    ft = 'php',
+    run = 'composer install --no-dev --optimize-autoloader',
+    config = function()
+      vim.keymap.set('n', '<Leader>pm', ':PhpactorContextMenu<CR>')
+    end,
+  }
+
+  use { 'stevearc/conform.nvim',
+    config = function()
+      require('conform').setup({
+        formatters_by_ft = {
+          php = { "php_cs_fixer" },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = false,
+        },
+        formatters = {
+          php_cs_fixer = {
+            command = 'vendor/bin/php-cs-fixer',
+          },
+        },
+      })
+    end,
   }
 
   -- use 'dense-analysis/ale'
