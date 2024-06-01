@@ -44,10 +44,17 @@ return packer.startup(function(use)
   -- use 'sainnhe/everforest'
   -- use 'Shatur/neovim-ayu'
   -- https://github.com/EdenEast/nightfox.nvim
-  use {
+  use { "folke/tokyonight.nvim" }
+
+  use { 
     "EdenEast/nightfox.nvim",
+    lazy = true,
   }
-  use { "rose-pine/neovim" }
+  use { 
+    "rose-pine/neovim",
+    lazy = true,
+  }
+
   use 'onsails/lspkind.nvim'
 
   use "nvim-lua/popup.nvim"             -- An implementation of the Popup API from vim in Neovim
@@ -117,7 +124,7 @@ return packer.startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = {
       {'nvim-tree/nvim-web-devicons', opt = true},
-    }
+    },
   }
 
   use {
