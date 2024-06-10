@@ -45,15 +45,8 @@ return packer.startup(function(use)
   -- use 'Shatur/neovim-ayu'
   -- https://github.com/EdenEast/nightfox.nvim
   use { "folke/tokyonight.nvim" }
-
-  use { 
-    "EdenEast/nightfox.nvim",
-    lazy = true,
-  }
-  use { 
-    "rose-pine/neovim",
-    lazy = true,
-  }
+  use { "EdenEast/nightfox.nvim", lazy = true }
+  use { "rose-pine/neovim", lazy = true }
 
   use 'onsails/lspkind.nvim'
 

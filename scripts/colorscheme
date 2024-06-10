@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+THEME=`echo -e "nightfox\ndawnfox\nnordfox\nterafox\ntokyonight\ntokyonight-moon\nrose-pine\nrose-pine-moon\nrose-pine-dawn" | fzf`
+
+echo "Selected $THEME ... applying settings."
+
+# conversion not required: nightfox, dawnfox, nordfox, terafox, rose-pine, rose-pine-moon, rose-pine-dawn
+if [ "$THEME" == "tokyonight-moon" ]; then
+    WEZTERM_THEME="tokyonight_moon"
+else
+    WEZTERM_THEME=$THEME
+fi
+
+# neovim
+sed -i '' "s/local colorscheme = '.*'/local colorscheme = '$THEME'/" ~/Code/clintwinter/dotfiles/nvim/lua/user/colorscheme.lua
+
+# tmux
+sed -i '' "s#/themes/.*\.tmux#/themes/$THEME.tmux#" ~/Code/clintwinter/dotfiles/tmux/tmux.conf
+tmux source ~/.config/tmux/tmux.conf
+
+# wezterm
+sed -i '' "s/config.color_scheme = '.*'/config.color_scheme = '$WEZTERM_THEME'/" ~/Code/clintwinter/dotfiles/wezterm/config.lua
+
+echo "Settings  applied. Restart neovim to see changes."

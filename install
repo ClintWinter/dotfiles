@@ -7,19 +7,21 @@ DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
 # brew bundle
 
-# rm -rf $HOME/.zshrc
-# ln -s $DOTFILES/zsh/zsh.conf $HOME/.zshrc
+rm -rf $HOME/.zshrc
+ln -s $DOTFILES/zsh/zsh.conf $HOME/.zshrc
 
 rm -rf $HOME/.config/nvim
 mkdir -p $HOME/.config
 ln -s $DOTFILES/nvim $HOME/.config
 
 rm -rf $HOME/.tmux.conf
-ln -s $DOTFILES/tmux/tmux.conf $HOME/.tmux.conf
+rm -rf $HOME/.config/tmux
+mkdir -p $HOME/.config
+ln -s $DOTFILES/tmux $HOME/.config
 
-rm -rf $HOME/.local/bin
-mkdir -p $HOME/.local/bin
+rm -rf $HOME/bin
+mkdir -p $HOME/bin
+ln -s $DOTFILES/scripts/* $HOME/bin
 
-ln -s $DOTFILES/scripts/* $HOME/.local/bin
-
+rm -rf $HOME/.wezterm.lua
 ln -s $DOTFILES/wezterm/config.lua $HOME/.wezterm.lua

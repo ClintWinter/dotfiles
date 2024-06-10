@@ -9,6 +9,7 @@ lualine.setup({
   options = {
     section_separators = '',
     component_separators = '',
+    -- theme = 'dawnfox',
   },
   sections = {
     lualine_b = { 'branch' },
