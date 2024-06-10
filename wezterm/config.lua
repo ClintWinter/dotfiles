@@ -13,7 +13,7 @@ config.term = 'wezterm'
 config.font = wezterm.font('Gintronic Nerd Font', { weight = 'Medium' })
 -- config.harfbuzz_features = { 'calt', 'clig', 'liga', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09' }
 config.font_size = 18.0
-config.line_height = 1.2;
+config.line_height = 1.2
 config.dpi = 72.0
 
 --
