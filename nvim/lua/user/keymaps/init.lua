@@ -69,6 +69,14 @@ k("n", "gat", function() require('textcase').current_word('to_title_case') end, 
 k("n", "gaT", function() require('textcase').lsp_rename('to_title_case') end, opts)
 k("n", "gaot", function() require('textcase').operator('to_title_case') end, opts)
 
+-- git --
+-- new branch
+k("n", '<leader>gn', function ()
+  vim.ui.input({prompt = "New branch name: "}, function (input)
+    vim.cmd(':Git switch -c ' .. input)
+  end)
+end, opts)
+
 -- vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
 --   callback = function(args)
 --     local buffers = vim.api.nvim_list_bufs()

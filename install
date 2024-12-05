@@ -2,26 +2,86 @@
 
 DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
-# rm -rf $HOME/Brewfile
-# ln -s $DOTFILES/Brewfile $HOME/Brewfile
+ALL_PARTS=("brew" "zsh" "nvim" "tmux" "scripts" "wezterm" "licenses")
 
-# brew bundle
+# Parse arguments into an array
+if [ "$#" -eq 0 ]; then
+    # No arguments provided; ask for confirmation
+    echo "You did not specify any parts. This will install ALL parts: ${ALL_PARTS[*]}"
+    echo "Do you want to proceed? (yes/no)"
+    read -r response
+    case "$response" in
+        yes|y|Y)
+            PARTS=("${ALL_PARTS[@]}")
+            ;;
+        no|n|N)
+            echo "Abandoning installation."
+            exit 0
+            ;;
+        *)
+            echo "Invalid response. Abandoning installation."
+            exit 1
+            ;;
+    esac
+else
+  # Use provided arguments as parts to install
+  PARTS=("$@")
+fi
 
-rm -rf $HOME/.zshrc
-ln -s $DOTFILES/zsh/zsh.conf $HOME/.zshrc
+brew() {
+    rm -rf $HOME/Brewfile
+    ln -s $DOTFILES/Brewfile $HOME/Brewfile
 
-rm -rf $HOME/.config/nvim
-mkdir -p $HOME/.config
-ln -s $DOTFILES/nvim $HOME/.config
+    brew bundle
+}
 
-rm -rf $HOME/.tmux.conf
-rm -rf $HOME/.config/tmux
-mkdir -p $HOME/.config
-ln -s $DOTFILES/tmux $HOME/.config
+zsh() {
+    rm -rf $HOME/.zshrc
+    ln -s $DOTFILES/zsh/zsh.conf $HOME/.zshrc
+}
 
-rm -rf $HOME/bin
-mkdir -p $HOME/bin
-ln -s $DOTFILES/scripts/* $HOME/bin
+nvim() {
+    rm -rf $HOME/.config/nvim
+    mkdir -p $HOME/.config
+    ln -s $DOTFILES/nvim $HOME/.config
+}
 
-rm -rf $HOME/.wezterm.lua
-ln -s $DOTFILES/wezterm/config.lua $HOME/.wezterm.lua
+
+tmux() {
+    rm -rf $HOME/.tmux.conf
+    rm -rf $HOME/.config/tmux
+    mkdir -p $HOME/.config
+    ln -s $DOTFILES/tmux $HOME/.config
+}
+
+scripts() {
+    rm -rf $HOME/bin
+    mkdir -p $HOME/bin
+    ln -s $DOTFILES/scripts/* $HOME/bin
+}
+
+wezterm() {
+    rm -rf $HOME/.wezterm.lua
+    ln -s $DOTFILES/wezterm/config.lua $HOME/.wezterm.lua
+}
+
+intelephense() {
+    rm -rf $HOME/intelephense/licence.txt
+    mkdir -p $HOME/intelephense/
+    ln -s $DOTFILES/intelephense_licence.txt $HOME/intelephense/licence.txt
+}
+
+for part in "${PARTS[@]}"; do
+    if printf '%s\n' "${ALL_PARTS[@]}" | grep -qx "$part"; then
+        if command -v "$part" >/dev/null 2>&1; then
+            echo "Executing $part..."
+            "$part"  # Call the function dynamically
+            echo "$part completed successfully."
+        else
+            echo "Skipping $part: Function not implemented."
+        fi
+    else
+        echo "Unknown part: $part. Skipping."
+    fi
+done
+

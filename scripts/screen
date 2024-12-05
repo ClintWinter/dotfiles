@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+SIZE=$1
+
+if [ "$SIZE" == "sm" ]; then
+    sed -i '' "s/config.font_size = .*/config.font_size = 32.0/" ~/Code/clintwinter/dotfiles/wezterm/config.lua
+elif [ "$SIZE" == "lg" ]; then
+    sed -i '' "s/config.font_size = .*/config.font_size = 18.0/" ~/Code/clintwinter/dotfiles/wezterm/config.lua
+fi
