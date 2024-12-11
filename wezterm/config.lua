@@ -4,8 +4,8 @@ local config = wezterm.config_builder()
 --
 -- COLOR SCHEME
 --
-config.color_scheme = 'rose-pine-dawn'
-config.term = 'wezterm'
+config.color_scheme = 'tokyonight_moon'
+-- config.term = 'wezterm'
 
 --
 -- FONT
@@ -31,5 +31,7 @@ config.window_padding = {
   top = 20,
   bottom = 20,
 }
+
+config.send_composed_key_when_left_alt_is_pressed = true
 
 return config
