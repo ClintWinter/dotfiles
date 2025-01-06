@@ -47,6 +47,7 @@ return packer.startup(function(use)
   use { "folke/tokyonight.nvim" }
   use { "EdenEast/nightfox.nvim", lazy = true }
   use { "rose-pine/neovim", lazy = true }
+  use { "catppuccin/nvim", lazy = true, as = "catppuccin" }
 
   use 'onsails/lspkind.nvim'
 

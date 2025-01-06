@@ -28,18 +28,6 @@ local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_cli
 
 lsp.preset('lsp-only')
 
-lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
--- lsp.configure('lua_ls', {
---   capabilities = capabilities,
---   settings = {
---     Lua = {
---       diagnostics = {
---         globals = { 'vim' }
---       }
---     }
---   }
--- })
-
 -- lsp.configure('phpactor', {
 --   capabilities = capabilities,
 --   cmd = { "phpactor", "language-server" },
@@ -56,20 +44,7 @@ lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 --   }
 -- })
 
-lspconfig.intelephense.setup({
-  settings = {
-    intelephense = {
-      licenceKey = os.getenv('HOME') .. '/intelephense/licence.txt',
-    },
-  }
-})
-
--- lsp.configure('intelephense', {
---   capabilities = capabilities,
---   cmd = { "intelephense", "--stdio" },
--- })
-
-lsp.configure('tsserver', {
+lsp.configure('ts_ls', {
   capabilities = capabilities,
   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact' },
   cmd = { "typescript-language-server", "--stdio" },
@@ -148,8 +123,9 @@ require('mason-lspconfig').setup({
     -- 'phpactor',
     'intelephense',
     'lua_ls',
-    'tsserver',
+    'ts_ls',
     'eslint',
+    'astro',
   },
   handlers = {
     function(server_name)
@@ -158,6 +134,16 @@ require('mason-lspconfig').setup({
 
     lua_ls = function()
       lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+    end,
+
+    intelephense = function()
+      lspconfig.intelephense.setup({
+        settings = {
+          intelephense = {
+            licenceKey = os.getenv('HOME') .. '/intelephense/licence.txt',
+          },
+        }
+      })
     end,
   },
 })

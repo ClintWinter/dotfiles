@@ -2,7 +2,7 @@
 
 DOTFILES=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
-ALL_PARTS=("brew" "zsh" "nvim" "tmux" "scripts" "wezterm" "licenses")
+ALL_PARTS=("brew" "zsh" "nvim" "tmux" "scripts" "wezterm" "licenses", "ghostty")
 
 # Parse arguments into an array
 if [ "$#" -eq 0 ]; then
@@ -63,6 +63,12 @@ scripts() {
 wezterm() {
     rm -rf $HOME/.wezterm.lua
     ln -s $DOTFILES/wezterm/config.lua $HOME/.wezterm.lua
+}
+
+ghostty() {
+    rm -rf $HOME/.config/ghostty
+    mkdir -p $HOME/.config/ghostty
+    ln -s $DOTFILES/ghostty/config $HOME/.config/ghostty/config
 }
 
 intelephense() {

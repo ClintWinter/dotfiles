@@ -4,12 +4,9 @@ vim.keymap.set('n', '<leader>ta', vim.cmd.TestSuite)
 vim.keymap.set('n', '<leader>tl', vim.cmd.TestLast)
 vim.keymap.set('n', '<leader>tg', vim.cmd.TestVisit)
 
-
-
--- vim.cmd('let test#php#phpunit#executable = \'docker exec givebutter-php-fpm php artisan test\'')
+-- vim.cmd('let test#php#phpunit#executable = \'php artisan test\'')
 -- vim.cmd('let test#php#phpunit#options = \'--verbose\'')
-vim.cmd('let test#php#phpunit#executable = \'php artisan test\'')
-vim.cmd('let test#php#phpunit#options = \'--verbose\'')
+vim.cmd('let test#php#phpunit#executable = \'vendor/bin/phpunit\'')
 
 local strategy = 'basic'
 vim.cmd(string.format('let test#strategy = \'%s\'', strategy))

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-THEME=`echo -e "nightfox\ndawnfox\nnordfox\nterafox\ntokyonight\ntokyonight-moon\nrose-pine\nrose-pine-moon\nrose-pine-dawn" | fzf`
+THEME=`echo -e "nightfox\ndawnfox\nnordfox\nterafox\ntokyonight\ntokyonight-moon\nrose-pine\nrose-pine-moon\nrose-pine-dawn\ncatppuccin-latte\ncatppuccin-frappe\ncatppuccin-mocha\ncatppuccin-macchiato" | fzf`
 
 echo "Selected $THEME ... applying settings."
 
@@ -21,4 +21,7 @@ tmux source ~/.config/tmux/tmux.conf
 # wezterm
 sed -i '' "s/config.color_scheme = '.*'/config.color_scheme = '$WEZTERM_THEME'/" ~/Code/clintwinter/dotfiles/wezterm/config.lua
 
-echo "Settings  applied. Restart neovim to see changes."
+# ghostty
+sed -i '' "s/^theme = .*/theme = "$THEME"/" ~/Code/clintwinter/dotfiles/ghostty/config
+
+echo "Settings applied. Restart neovim to see changes."
